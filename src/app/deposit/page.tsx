@@ -117,27 +117,6 @@ const DepositPage = () => {
 
   return (
     <div className="flex flex-col h-screen bg-white text-black">
-      {/* Transactions List */}
-      <div className="w-full p-6 border-b border-border">
-        <h2 className="text-lg font-semibold mb-4 text-black">
-          <span className="mr-2">Total {totalInteractions} Interactions</span>
-          <span className="text-sm text-gray-500">({totalLockedAmount} PEP Locked)</span>
-        </h2>
-        <div className="overflow-y-auto max-h-48">
-          {depositTransactions.map((transaction, index) => (
-            <div
-              key={index}
-              className="flex justify-between items-center py-2 border-b border-border last:border-none"
-            >
-              <span className="text-black">{transaction.id} {transaction.type}</span>
-              <span className="text-black">
-                {transaction.amount} PEP
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-
       {/* Deposit Section */}
       <div className="flex-1 p-6 flex flex-col bg-white">
         <div className="mb-4">
@@ -213,6 +192,26 @@ const DepositPage = () => {
             </CardDescription>
           </CardContent>
         </Card>
+      </div>
+           {/* Transactions List */}
+           <div className="w-full p-6 border-b border-border">
+        <h2 className="text-lg font-semibold mb-4 text-black">
+          <span className="mr-2">Total {totalInteractions} Interactions</span>
+          <span className="text-sm text-gray-500">({totalLockedAmount} PEP Locked)</span>
+        </h2>
+        <div className="overflow-y-auto max-h-48">
+          {depositTransactions.map((transaction, index) => (
+            <div
+              key={index}
+              className="flex justify-between items-center py-2 border-b border-border last:border-none"
+            >
+              <span className="text-black">{transaction.id} {transaction.type}</span>
+              <span className="text-black">
+                {transaction.amount} PEP
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

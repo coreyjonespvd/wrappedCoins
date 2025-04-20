@@ -33,7 +33,7 @@ export default function Home() {
               <CardDescription>Bridge your PEP to Solana as wPEP</CardDescription>
             </CardHeader>
             <CardContent>
-              <Button style={{backgroundColor: 'white', color: 'black'}} onClick={() => router.push('/deposit')}>Go to Deposit</Button>
+              <Button style={{backgroundColor: 'lightgrey', color: 'black'}} onClick={() => router.push('/deposit')}>Go to Deposit</Button>
             </CardContent>
           </Card>
 
@@ -43,7 +43,7 @@ export default function Home() {
               <CardDescription>Bridge your wPEP back to PEP</CardDescription>
             </CardHeader>
             <CardContent>
-              <Button  style={{backgroundColor: 'white', color: 'black'}} onClick={() => router.push('/withdraw')}>Go to Withdraw</Button>
+              <Button  style={{backgroundColor: 'lightgrey', color: 'black'}} onClick={() => router.push('/withdraw')}>Go to Withdraw</Button>
             </CardContent>
           </Card>
         </div>
@@ -55,4 +55,5 @@ export default function Home() {
     </div>
   );
 }
+
 

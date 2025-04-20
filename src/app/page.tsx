@@ -50,8 +50,9 @@ export default function Home() {
       </main>
 
       <footer className="flex items-center justify-center w-full h-24 border-t">
-        <Button onClick={() => router.push('/dashboard')}>Total Value Dashboard</Button>
+        <Button onClick={() => router.push('/dashboard')} className="absolute left-4 bottom-4">Total Value Dashboard</Button>
       </footer>
     </div>
   );
 }
+

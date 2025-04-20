@@ -13,7 +13,7 @@ export default function Home() {
   const router = useRouter();
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-gray-200 text-black">
+    <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-white text-black">
       <Toaster/>
       <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
         <h1 className="text-6xl font-bold">
@@ -27,7 +27,7 @@ export default function Home() {
         </div>
 
         <div className="flex flex-wrap items-center justify-around max-w-4xl mt-6 sm:w-full">
-          <Card className="bg-white shadow-md rounded-lg p-6 w-full sm:w-auto mt-4">
+          <Card className="bg-gray-50 shadow-md rounded-lg p-6 w-full sm:w-auto mt-4">
             <CardHeader>
               <CardTitle className="text-black">Deposit</CardTitle>
               <CardDescription>Bridge your PEP to Solana as wPEP</CardDescription>
@@ -37,7 +37,7 @@ export default function Home() {
             </CardContent>
           </Card>
 
-          <Card className="bg-white shadow-md rounded-lg p-6 w-full sm:w-auto mt-4">
+          <Card className="bg-gray-50 shadow-md rounded-lg p-6 w-full sm:w-auto mt-4">
             <CardHeader>
               <CardTitle className="text-black">Withdraw</CardTitle>
               <CardDescription>Bridge your wPEP back to PEP</CardDescription>

@@ -10,7 +10,7 @@ interface DashboardData {
   uniqueWallets: number;
   tvlChartData: {date: string; value: number}[];
   volumeChartData: {date: string; value: number}[];
-  uniqueWalletsChartData: {date: string; value: number}[];
+  uniqueWaletsChartData: {date: string; value: number}[];
 }
 
 const DashboardPage = () => {
@@ -151,4 +151,3 @@ const DashboardPage = () => {
 };
 
 export default DashboardPage;
-

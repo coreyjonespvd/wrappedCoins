@@ -119,7 +119,7 @@ const DepositPage = () => {
     <div className="flex h-screen bg-white text-black">
       {/* Transactions List */}
       <div className="w-1/3 p-6 border-r border-border">
-        <h2 className="text-lg font-semibold mb-4">
+        <h2 className="text-lg font-semibold mb-4 text-black">
           <span className="mr-2">Total {totalInteractions} Interactions</span>
           <span className="text-sm text-gray-500">({totalLockedAmount} PEP Locked)</span>
         </h2>
@@ -129,8 +129,8 @@ const DepositPage = () => {
               key={index}
               className="flex justify-between items-center py-2 border-b border-border last:border-none"
             >
-              <span>{transaction.id} {transaction.type}</span>
-              <span>
+              <span className="text-black">{transaction.id} {transaction.type}</span>
+              <span className="text-black">
                 {transaction.amount} PEP
               </span>
             </div>
@@ -219,4 +219,3 @@ const DepositPage = () => {
 };
 
 export default DepositPage;
-

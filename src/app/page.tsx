@@ -29,7 +29,7 @@ export default function Home() {
         <div className="flex flex-wrap items-center justify-around max-w-4xl mt-6 sm:w-full">
           <Card className="bg-white shadow-md rounded-lg p-6 w-full sm:w-auto mt-4">
             <CardHeader>
-              <CardTitle>Deposit</CardTitle>
+              <CardTitle className="text-black">Deposit</CardTitle>
               <CardDescription>Bridge your PEP to Solana as wPEP</CardDescription>
             </CardHeader>
             <CardContent>
@@ -39,7 +39,7 @@ export default function Home() {
 
           <Card className="bg-white shadow-md rounded-lg p-6 w-full sm:w-auto mt-4">
             <CardHeader>
-              <CardTitle>Redeem</CardTitle>
+              <CardTitle className="text-black">Redeem</CardTitle>
               <CardDescription>Bridge your wPEP back to PEP</CardDescription>
             </CardHeader>
             <CardContent>

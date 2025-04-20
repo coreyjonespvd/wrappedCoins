@@ -13,7 +13,7 @@ export default function Home() {
   const router = useRouter();
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
+    <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-gray-200 text-black">
       <Toaster/>
       <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
         <h1 className="text-6xl font-bold">

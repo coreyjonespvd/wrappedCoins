@@ -61,13 +61,13 @@ const WithdrawPage = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-white text-black">
       <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-        <h1 className="text-4xl font-bold">
+        <h1 className="text-4xl font-bold text-black">
           Withdrawal wPEP to PEP
         </h1>
 
         <div className="mt-6 w-full max-w-md">
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="amount">
+            <label className="block text-gray-700 text-sm font-bold mb-2 text-black" htmlFor="amount">
               Amount of wPEP to Withdraw:
             </label>
             <Input
@@ -75,12 +75,12 @@ const WithdrawPage = () => {
               type="number"
               placeholder="Enter amount"
               onChange={(e) => setAmount(Number(e.target.value))}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-50"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-50 text-black"
             />
           </div>
 
           <div className="mb-6">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="pepRecipient">
+            <label className="block text-gray-700 text-sm font-bold mb-2 text-black" htmlFor="pepRecipient">
               PEP Recipient Address:
             </label>
             <Input
@@ -88,7 +88,7 @@ const WithdrawPage = () => {
               type="text"
               placeholder="Enter PEP address"
               onChange={(e) => setPepRecipient(e.target.value)}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-50"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-50 text-black"
             />
           </div>
 

@@ -43,18 +43,15 @@ export default function Home() {
               <CardDescription>Bridge your wPEP back to PEP</CardDescription>
             </CardHeader>
             <CardContent>
-              <Button onClick={() => router.push('/redeem')}>Go to Withdraw</Button>
+              <Button onClick={() => router.push('/withdraw')}>Go to Withdraw</Button>
             </CardContent>
           </Card>
         </div>
       </main>
 
       <footer className="flex items-center justify-center w-full h-24 border-t">
-        <p>
-          Powered by Lit Protocol and Firebase
-        </p>
+        <Button onClick={() => router.push('/dashboard')}>Total Value Dashboard</Button>
       </footer>
     </div>
   );
 }
-

@@ -17,7 +17,7 @@ export default function Home() {
       <Toaster/>
       <main className="flex flex-col items-center justify-center w-full flex-1 px-4 sm:px-20 text-center">
         <h1 className="text-4xl sm:text-6xl font-bold">
-          Welcome to wPEP Bridge
+          Welcome to Scrypt Bridge
         </h1>
 
         <div className="mt-6">

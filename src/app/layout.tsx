@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'wPEP Bridge',
+  title: 'Scrypt Bridge',
   description: 'Bridge your PEP to Solana',
 };
 

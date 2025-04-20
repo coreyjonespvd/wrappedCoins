@@ -5,6 +5,8 @@ import {useToast} from "@/hooks/use-toast";
 import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
 import {proveDeposit} from "@/ai/flows/prove-deposit";
+import {Icons} from "@/components/icons";
+import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 
 const DepositPage = () => {
   const [txid, setTxid] = useState<string>("");
@@ -65,16 +67,82 @@ const DepositPage = () => {
     });
   };
 
-  return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
-      <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-        <h1 className="text-4xl font-bold">
-          Deposit PEP to get wPEP
-        </h1>
+  const depositTransactions = [
+    {id: "#2143", type: "Deposit", amount: "0.000686"},
+    {id: "#2142", type: "Withdrawal", amount: "0.020102"},
+    {id: "#2141", type: "Deposit", amount: "0.000793"},
+    {id: "#2140", type: "Deposit", amount: "0.000710"},
+    {id: "#2139", type: "Deposit", amount: "0.000552"},
+    {id: "#2138", type: "Deposit", amount: "0.259964"},
+    {id: "#2137", type: "Deposit", amount: "0.000714"},
+    {id: "#2136", type: "Withdrawal", amount: "0.000714"},
+  ];
 
-        {/* Wallet Connection Section */}
+  return (
+    <div className="flex h-screen bg-background text-foreground">
+      {/* Transactions List */}
+      <div className="w-1/3 p-6 border-r border-border">
+        <h2 className="text-lg font-semibold mb-4">
+          <span className="mr-2">Total 2,143 Interactions</span>
+        </h2>
+        <div className="overflow-y-auto h-[calc(100vh-10rem)]">
+          {depositTransactions.map((transaction, index) => (
+            <div
+              key={index}
+              className="flex justify-between items-center py-2 border-b border-border last:border-none"
+            >
+              <span>{transaction.id} {transaction.type}</span>
+              <span>
+                {transaction.amount} PEP
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Deposit Section */}
+      <div className="flex-1 p-6 flex flex-col">
+        <div className="mb-4">
+          <h2 className="text-2xl font-bold">Deposit</h2>
+        </div>
+
+        {/* Lock Section */}
+        <div className="mb-6">
+          <h3 className="text-lg font-semibold mb-2">Lock</h3>
+          <div className="flex items-center justify-between mb-2">
+            <span className="font-medium">PEP</span>
+            <span>~$0 USD</span>
+          </div>
+          <Input
+            type="number"
+            placeholder="0"
+            className="w-full rounded-md mb-2"
+          />
+          <Button variant="outline" size="sm">
+            Max
+          </Button>
+        </div>
+
+        {/* Mint Section */}
+        <div className="mb-6">
+          <h3 className="text-lg font-semibold mb-2">Mint</h3>
+          <div className="flex items-center justify-between mb-2">
+            <span className="font-medium">wPEP <Icons.shield className="inline-block h-4 w-4 ml-1"/> Custodial</span>
+            <span>~$0 USD</span>
+          </div>
+          <Input
+            type="number"
+            placeholder="0"
+            className="w-full rounded-md mb-2"
+          />
+        </div>
+
+        {/* Connect Wallet Section */}
         {!isConnected ? (
-          <Button onClick={connectWallet}>Connect PEP Wallet</Button>
+          <Button onClick={connectWallet} className="w-full">
+            <Icons.shield className="inline-block h-4 w-4 mr-2"/>
+            Connect PEP Wallet
+          </Button>
         ) : (
           <div>
             <p>Connected with {pepBalance} PEP</p>
@@ -96,62 +164,18 @@ const DepositPage = () => {
           </div>
         )}
 
-        <div className="mt-6 w-full max-w-md">
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="txid">
-              Transaction ID:
-            </label>
-            <Input
-              id="txid"
-              type="text"
-              placeholder="Enter transaction ID"
-              onChange={(e) => setTxid(e.target.value)}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </div>
-
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="vout">
-              Vout:
-            </label>
-            <Input
-              id="vout"
-              type="number"
-              placeholder="Enter vout"
-              onChange={(e) => setVout(Number(e.target.value))}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </div>
-
-          <div className="mb-6">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="solRecipient">
-              Solana Recipient Address:
-            </label>
-            <Input
-              id="solRecipient"
-              type="text"
-              placeholder="Enter Solana address"
-              onChange={(e) => setSolRecipient(e.target.value)}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            />
-          </div>
-
-          <Button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            type="button"
-            onClick={handleDeposit}
-            disabled={isLoading}
-          >
-            {isLoading ? "Proving Deposit..." : "Prove Deposit"}
-          </Button>
-        </div>
-      </main>
-
-      <footer className="flex items-center justify-center w-full h-24 border-t">
-        <p>
-          Powered by Lit Protocol and Firebase
-        </p>
-      </footer>
+        {/* Safety Message */}
+        <Card className="mt-4 bg-destructive text-destructive-foreground">
+          <CardHeader>
+            <CardTitle>Important Safety Information</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <CardDescription>
+              To keep your assets safe, avoid storing Ordinals / Inscriptions, and Runes in your Pepecoin wallet. Always verify transaction details before signing to protect your assets.
+            </CardDescription>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };

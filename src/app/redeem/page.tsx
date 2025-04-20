@@ -75,7 +75,7 @@ const WithdrawPage = () => {
               type="number"
               placeholder="Enter amount"
               onChange={(e) => setAmount(Number(e.target.value))}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-50"
             />
           </div>
 
@@ -88,7 +88,7 @@ const WithdrawPage = () => {
               type="text"
               placeholder="Enter PEP address"
               onChange={(e) => setPepRecipient(e.target.value)}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-50"
             />
           </div>
 
@@ -118,3 +118,4 @@ const WithdrawPage = () => {
 };
 
 export default WithdrawPage;
+

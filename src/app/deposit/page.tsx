@@ -116,7 +116,7 @@ const DepositPage = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-200 text-black">
+    <div className="flex h-screen bg-white text-black">
       {/* Transactions List */}
       <div className="w-1/3 p-6 border-r border-border">
         <h2 className="text-lg font-semibold mb-4">
@@ -141,37 +141,37 @@ const DepositPage = () => {
       {/* Deposit Section */}
       <div className="flex-1 p-6 flex flex-col bg-white">
         <div className="mb-4">
-          <h2 className="text-2xl font-bold">Deposit</h2>
+          <h2 className="text-2xl font-bold text-black">Deposit</h2>
         </div>
 
         {/* Lock Section */}
         <div className="mb-6">
-          <h3 className="text-lg font-semibold mb-2">Lock</h3>
+          <h3 className="text-lg font-semibold mb-2 text-black">Lock</h3>
           <div className="flex items-center justify-between mb-2">
-            <span className="font-medium">PEP</span>
-            <span>~$0 USD</span>
+            <span className="font-medium text-black">PEP</span>
+            <span className="text-black">~$0 USD</span>
           </div>
           <Input
             type="number"
             placeholder="0"
-            className="w-full rounded-md mb-2 bg-gray-100"
+            className="w-full rounded-md mb-2 bg-gray-50 text-black"
           />
-          <Button variant="outline" style={{color: 'grey', backgroundColor: 'lightgrey'}} size="sm">
+          <Button variant="outline" style={{color: 'black', backgroundColor: 'lightgrey'}} size="sm">
             Max
           </Button>
         </div>
 
         {/* Mint Section */}
         <div className="mb-6">
-          <h3 className="text-lg font-semibold mb-2">Mint</h3>
+          <h3 className="text-lg font-semibold mb-2 text-black">Mint</h3>
           <div className="flex items-center justify-between mb-2">
-            <span className="font-medium">wPEP <Icons.shield className="inline-block h-4 w-4 ml-1"/> Custodial</span>
-            <span>~$0 USD</span>
+            <span className="font-medium text-black">wPEP <Icons.shield className="inline-block h-4 w-4 ml-1"/> Custodial</span>
+            <span className="text-black">~$0 USD</span>
           </div>
           <Input
             type="number"
             placeholder="0"
-            className="w-full rounded-md mb-2 bg-gray-100"
+            className="w-full rounded-md mb-2 bg-gray-50 text-black"
           />
         </div>
 
@@ -183,18 +183,18 @@ const DepositPage = () => {
           </Button>
         ) : (
           <div>
-            <p>Connected with {pepBalance} PEP</p>
+            <p className="text-black">Connected with {pepBalance} PEP</p>
             {/* Deposit Form */}
             <div className="mt-6 w-full max-w-md">
               <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="depositAmount">
+                <label className="block text-gray-700 text-sm font-bold mb-2 text-black" htmlFor="depositAmount">
                   Deposit Amount:
                 </label>
                 <Input
                   id="depositAmount"
                   type="number"
                   placeholder="Enter amount to deposit"
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-50 text-black"
                 />
               </div>
               <Button onClick={() => depositPep(10)}>Deposit</Button>
@@ -219,3 +219,4 @@ const DepositPage = () => {
 };
 
 export default DepositPage;
+

@@ -39,11 +39,11 @@ export default function Home() {
 
           <Card className="bg-white shadow-md rounded-lg p-6 w-full sm:w-auto mt-4">
             <CardHeader>
-              <CardTitle className="text-black">Redeem</CardTitle>
+              <CardTitle className="text-black">Withdraw</CardTitle>
               <CardDescription>Bridge your wPEP back to PEP</CardDescription>
             </CardHeader>
             <CardContent>
-              <Button onClick={() => router.push('/redeem')}>Go to Redeem</Button>
+              <Button onClick={() => router.push('/redeem')}>Go to Withdraw</Button>
             </CardContent>
           </Card>
         </div>
@@ -57,3 +57,4 @@ export default function Home() {
     </div>
   );
 }
+

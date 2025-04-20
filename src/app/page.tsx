@@ -13,7 +13,12 @@ export default function Home() {
   const router = useRouter();
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-gray-50 text-black">
+    <div className="flex flex-col items-center justify-center min-h-screen py-2"
+      style={{
+        backgroundColor: 'rgba(220, 220, 220, 0.1)', // Light silver with transparency
+        backdropFilter: 'blur(10px)', // Apply blur to the background
+      }}
+    >
       <Toaster/>
       <main className="flex flex-col items-center justify-center w-full flex-1 px-4 sm:px-20 text-center">
         <h1 className="text-4xl sm:text-6xl font-bold">

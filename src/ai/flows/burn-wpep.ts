@@ -1,4 +1,4 @@
-// Burn wPEP flow handles burning wPEP tokens and initiating the process to redeem them for PEP.
+// Withdraw wPEP flow handles burning wPEP tokens and initiating the process to withdraw them for PEP.
 
 'use server';
 
@@ -55,3 +55,4 @@ async input => {
   // TODO: add database logging here
   return output!;
 });
+

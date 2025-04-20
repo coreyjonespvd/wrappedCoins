@@ -27,7 +27,7 @@ export default function Home() {
 
         <div className="mt-6">
           <p className="text-xl sm:text-2xl">
-            Bridge your <span className="text-blue-600">PEP</span> to <span className="text-green-600">Solana</span>
+            Bridge your Scrypt coins to Solana
           </p>
         </div>
 
@@ -61,3 +61,4 @@ export default function Home() {
     </div>
   );
 }
+

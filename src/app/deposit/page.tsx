@@ -116,7 +116,7 @@ const DepositPage = () => {
           <Input
             type="number"
             placeholder="0"
-            className="w-full rounded-md mb-2"
+            className="w-full rounded-md mb-2 bg-gray-100"
           />
           <Button variant="outline" size="sm">
             Max
@@ -133,7 +133,7 @@ const DepositPage = () => {
           <Input
             type="number"
             placeholder="0"
-            className="w-full rounded-md mb-2"
+            className="w-full rounded-md mb-2 bg-gray-100"
           />
         </div>
 

@@ -116,14 +116,14 @@ const DepositPage = () => {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row h-screen bg-white text-black">
+    <div className="flex flex-col h-screen bg-white text-black">
       {/* Transactions List */}
-      <div className="w-full sm:w-1/3 p-6 border-r border-border">
+      <div className="w-full p-6 border-b border-border">
         <h2 className="text-lg font-semibold mb-4 text-black">
           <span className="mr-2">Total {totalInteractions} Interactions</span>
           <span className="text-sm text-gray-500">({totalLockedAmount} PEP Locked)</span>
         </h2>
-        <div className="overflow-y-auto h-[calc(100vh-10rem)]">
+        <div className="overflow-y-auto max-h-48">
           {depositTransactions.map((transaction, index) => (
             <div
               key={index}

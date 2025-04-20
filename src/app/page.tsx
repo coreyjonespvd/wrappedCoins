@@ -13,7 +13,7 @@ export default function Home() {
   const router = useRouter();
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-white text-black">
+    <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-gray-50 text-black">
       <Toaster/>
       <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
         <h1 className="text-6xl font-bold">
@@ -27,23 +27,23 @@ export default function Home() {
         </div>
 
         <div className="flex flex-wrap items-center justify-around max-w-4xl mt-6 sm:w-full">
-          <Card className="bg-gray-50 shadow-md rounded-lg p-6 w-full sm:w-auto mt-4">
+          <Card className="bg-white shadow-md rounded-lg p-6 w-full sm:w-auto mt-4">
             <CardHeader>
               <CardTitle className="text-black">Deposit</CardTitle>
               <CardDescription>Bridge your PEP to Solana as wPEP</CardDescription>
             </CardHeader>
             <CardContent>
-              <Button onClick={() => router.push('/deposit')}>Go to Deposit</Button>
+              <Button style={{backgroundColor: 'white', color: 'black'}} onClick={() => router.push('/deposit')}>Go to Deposit</Button>
             </CardContent>
           </Card>
 
-          <Card className="bg-gray-50 shadow-md rounded-lg p-6 w-full sm:w-auto mt-4">
+          <Card className="bg-white shadow-md rounded-lg p-6 w-full sm:w-auto mt-4">
             <CardHeader>
               <CardTitle className="text-black">Withdraw</CardTitle>
               <CardDescription>Bridge your wPEP back to PEP</CardDescription>
             </CardHeader>
             <CardContent>
-              <Button onClick={() => router.push('/withdraw')}>Go to Withdraw</Button>
+              <Button  style={{backgroundColor: 'white', color: 'black'}} onClick={() => router.push('/withdraw')}>Go to Withdraw</Button>
             </CardContent>
           </Card>
         </div>

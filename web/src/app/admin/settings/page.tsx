@@ -2,7 +2,7 @@
 // web/src/app/admin/settings/page.tsx
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from 'next/navigation';
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
@@ -12,22 +12,25 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { app } from '@/lib/firebase';
+import { useSettings, saveSettings } from '@/lib/useAdmin';
+import { Textarea } from "@/components/ui/textarea";
 
 const SettingsForm = () => {
   const [user, setUser] = useState<any>(null);
-  const [settings, setSettings] = useState({
+  const { settings, isLoading, isError, mutate } = useSettings();
+  const { toast } = useToast();
+  const router = useRouter();
+
+  const [localSettings, setLocalSettings] = useState(() => settings || {
     litApiKey: "",
     litAuthSig: "",
     solRpcUrl: "",
-    electrumHosts: "",
+    electrumHosts: "[]",
     minConfirmations: 3,
     pepTxFee: 0.0001,
-    maintenanceMode: false,
     reserveThreshold: 1000,
     alertEmail: "",
   });
-  const { toast } = useToast();
-  const router = useRouter();
 
   useEffect(() => {
     const auth = getAuth(app);
@@ -42,24 +45,58 @@ const SettingsForm = () => {
     return () => unsubscribe();
   }, [router]);
 
+  useEffect(() => {
+    if (settings) {
+      setLocalSettings(settings);
+    }
+  }, [settings]);
+
   const handleInputChange = (tab: string, event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
-    setSettings(prevSettings => ({
+    setLocalSettings(prevSettings => ({
       ...prevSettings,
       [name]: value,
     }));
   };
 
-  const handleSaveSettings = async () => {
-    // TODO: Call setSettings function
-    toast({
-      title: "Settings Saved",
-      description: "Settings have been saved successfully!",
-    });
-  };
+  // Debounce save settings function
+  const debouncedSaveSettings = useCallback(
+    debounce(async (settingsToSave) => {
+      const result = await saveSettings(settingsToSave);
+      if (result.success) {
+        toast({
+          title: "Settings Saved",
+          description: "Settings have been saved successfully!",
+        });
+        mutate(); // Refresh settings
+      } else {
+        toast({
+          title: "Error",
+          description: result.error || "Failed to save settings.",
+          variant: "destructive",
+        });
+      }
+    }, 400),
+    []
+  );
+
+  useEffect(() => {
+    // Auto-save on changes with debounce
+    if (settings && !isEqual(settings, localSettings)) {
+      debouncedSaveSettings(localSettings);
+    }
+  }, [localSettings, settings, debouncedSaveSettings]);
 
   if (!user) {
     return <div>Loading...</div>;
+  }
+
+  if (isLoading) {
+    return <div>Loading settings...</div>;
+  }
+
+  if (isError) {
+    return <div>Error loading settings.</div>;
   }
 
   return (
@@ -80,15 +117,20 @@ const SettingsForm = () => {
                 <div className="grid gap-4">
                   <div className="grid gap-2">
                     <Label htmlFor="solRpcUrl">Solana RPC URL</Label>
-                    <Input id="solRpcUrl" name="solRpcUrl" value={settings.solRpcUrl} onChange={(e) => handleInputChange("network", e)} />
+                    <Input id="solRpcUrl" name="solRpcUrl" value={localSettings.solRpcUrl || ""} onChange={(e) => handleInputChange("network", e)} />
                   </div>
                   <div className="grid gap-2">
                     <Label htmlFor="electrumHosts">Electrum Hosts (JSON Array)</Label>
-                    <Input id="electrumHosts" name="electrumHosts" value={settings.electrumHosts} onChange={(e) => handleInputChange("network", e)} />
+                    <Textarea
+                      id="electrumHosts"
+                      name="electrumHosts"
+                      value={localSettings.electrumHosts || "[]"}
+                      onChange={(e) => handleInputChange("network", e)}
+                    />
                   </div>
                   <div className="grid gap-2">
                     <Label htmlFor="minConfirmations">Min Confirmations</Label>
-                    <Input type="number" id="minConfirmations" name="minConfirmations" value={settings.minConfirmations} onChange={(e) => handleInputChange("network", e)} />
+                    <Input type="number" id="minConfirmations" name="minConfirmations" value={localSettings.minConfirmations || 3} onChange={(e) => handleInputChange("network", e)} />
                   </div>
                 </div>
               </TabsContent>
@@ -96,11 +138,11 @@ const SettingsForm = () => {
                 <div className="grid gap-4">
                   <div className="grid gap-2">
                     <Label htmlFor="litApiKey">Lit API Key</Label>
-                    <Input id="litApiKey" name="litApiKey" value={settings.litApiKey} onChange={(e) => handleInputChange("lit", e)} />
+                    <Input id="litApiKey" name="litApiKey" value={localSettings.litApiKey || ""} onChange={(e) => handleInputChange("lit", e)} />
                   </div>
                   <div className="grid gap-2">
                     <Label htmlFor="litAuthSig">Lit Auth Sig</Label>
-                    <Input id="litAuthSig" name="litAuthSig" value={settings.litAuthSig} onChange={(e) => handleInputChange("lit", e)} />
+                    <Input id="litAuthSig" name="litAuthSig" value={localSettings.litAuthSig || ""} onChange={(e) => handleInputChange("lit", e)} />
                   </div>
                 </div>
               </TabsContent>
@@ -108,7 +150,7 @@ const SettingsForm = () => {
                 <div className="grid gap-4">
                   <div className="grid gap-2">
                     <Label htmlFor="pepTxFee">PEP Transaction Fee</Label>
-                    <Input type="number" id="pepTxFee" name="pepTxFee" value={settings.pepTxFee} onChange={(e) => handleInputChange("fees", e)} />
+                    <Input type="number" id="pepTxFee" name="pepTxFee" value={localSettings.pepTxFee || 0.0001} onChange={(e) => handleInputChange("fees", e)} />
                   </div>
                 </div>
               </TabsContent>
@@ -116,23 +158,38 @@ const SettingsForm = () => {
                 <div className="grid gap-4">
                   <div className="grid gap-2">
                     <Label htmlFor="reserveThreshold">Reserve Threshold</Label>
-                    <Input type="number" id="reserveThreshold" name="reserveThreshold" value={settings.reserveThreshold} onChange={(e) => handleInputChange("alerts", e)} />
+                    <Input type="number" id="reserveThreshold" name="reserveThreshold" value={localSettings.reserveThreshold || 1000} onChange={(e) => handleInputChange("alerts", e)} />
                   </div>
                   <div className="grid gap-2">
                     <Label htmlFor="alertEmail">Alert Email</Label>
-                    <Input id="alertEmail" name="alertEmail" value={settings.alertEmail} onChange={(e) => handleInputChange("alerts", e)} />
+                    <Input id="alertEmail" name="alertEmail" value={localSettings.alertEmail || ""} onChange={(e) => handleInputChange("alerts", e)} />
                   </div>
                 </div>
               </TabsContent>
             </Tabs>
-            <Button onClick={handleSaveSettings} className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-              Save Settings
-            </Button>
           </CardContent>
         </Card>
       </main>
     </div>
   );
 };
+
+// Utility function to debounce a function call
+function debounce<Params extends any[]>(
+  func: (...args: Params) => any,
+  timeout: number,
+): (...args: Params) => void {
+  let timer: NodeJS.Timeout;
+  return (...args: Params) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      func(...args);
+    }, timeout);
+  };
+}
+
+function isEqual(a: any, b: any): boolean {
+  return JSON.stringify(a) === JSON.stringify(b);
+}
 
 export default SettingsForm;

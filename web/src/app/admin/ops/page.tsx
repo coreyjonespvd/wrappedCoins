@@ -10,6 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { app } from '@/lib/firebase';
+import { callOp } from '@/lib/useAdmin'; // Import the callOp function
 
 const OpsPanel = () => {
   const [user, setUser] = useState<any>(null);
@@ -31,23 +32,55 @@ const OpsPanel = () => {
   }, [router]);
 
   const handleRotatePkp = async (type: string) => {
-    // TODO: Call rotatePkp function
-    toast({
-      title: "Rotate PKP",
-      description: `Rotating PKP of type ${type}!`,
-    });
+    try {
+      const result = await callOp('rotatePkp', { type });
+      if (result.success) {
+        toast({
+          title: "Rotate PKP",
+          description: result.data.message || `Rotating PKP of type ${type}!`,
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: result.error || `Failed to rotate PKP of type ${type}.`,
+          variant: "destructive",
+        });
+      }
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "An unexpected error occurred.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleRetryRedemption = async () => {
-    // TODO: Call retryRedemption function
-    toast({
-      title: "Retry Redemption",
-      description: `Retrying redemption for burn ID ${burnId}!`,
-    });
+    try {
+      const result = await callOp('retryRedemption', { burnId });
+      if (result.success) {
+        toast({
+          title: "Retry Redemption",
+          description: result.data.message || `Retrying redemption for burn ID ${burnId}!`,
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: result.error || `Failed to retry redemption for burn ID ${burnId}.`,
+          variant: "destructive",
+        });
+      }
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "An unexpected error occurred.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleForceHeaderSync = async () => {
-    // TODO: Call forceHeaderSync function
+    // TODO: Implement forceHeaderSync function
     toast({
       title: "Force Header Sync",
       description: "Forcing header sync!",

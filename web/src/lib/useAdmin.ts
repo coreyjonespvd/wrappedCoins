@@ -4,7 +4,17 @@ import useSWR from 'swr';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import { app } from '@/lib/firebase';
 
-// TODO: Define types for settings
+interface Settings {
+  litApiKey: string;
+  litAuthSig: string;
+  solRpcUrl: string;
+  electrumHosts: string;
+  minConfirmations: number;
+  pepTxFee: number;
+  maintenanceMode: boolean;
+  reserveThreshold: number;
+  alertEmail: string;
+}
 
 const functions = getFunctions(app);
 
@@ -15,7 +25,7 @@ const fetcher = async (methodName: string) => {
 };
 
 export const useSettings = () => {
-  const { data, error, mutate } = useSWR('getSettings', fetcher);
+  const { data, error, mutate } = useSWR<Settings>('getSettings', fetcher);
 
   return {
     settings: data,
@@ -25,7 +35,7 @@ export const useSettings = () => {
   };
 };
 
-export const saveSettings = async (payload: any) => {
+export const saveSettings = async (payload: Settings) => {
   const callable = httpsCallable(functions, 'setSettings');
   try {
     await callable(payload);

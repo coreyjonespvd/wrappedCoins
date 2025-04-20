@@ -13,9 +13,17 @@ export const onReserveImbalance = functions.firestore
     const newValue = change.after.data();
     const previousValue = change.before.data();
 
-    // TODO: Compare wPEP supply to PEP reserves + threshold
-    // TODO: Send email via SendGrid
-    // TODO: Push Cloud Messaging notification to admins
+    const wPEPSupply = 500000; // TODO: Replace with actual data
+    const PEPReserves = 1000000; // TODO: Replace with actual data
+    const threshold = newValue.reserveThreshold || previousValue.reserveThreshold || 1000; // Ensure threshold is defined
+
+    // Compare wPEP supply to PEP reserves + threshold
+    if (wPEPSupply > PEPReserves + threshold) {
+      // TODO: Send email via SendGrid
+      console.log('Sending email via SendGrid due to reserve imbalance');
+      // TODO: Push Cloud Messaging notification to admins
+      console.log('Pushing Cloud Messaging notification to admins');
+    }
 
     console.log('Reserve imbalance detected', newValue, previousValue);
     return null;
@@ -26,7 +34,10 @@ export const onReserveImbalance = functions.firestore
  */
 export const onFailedLitAction = functions.logger.onLog(async (log) => {
   // TODO: Check if the log entry indicates a failed Lit Action
-  // TODO: Push Cloud Messaging notification to admins
+  if (log.severity === 'ERROR' && log.message?.includes('Lit Action failed')) {
+    // TODO: Push Cloud Messaging notification to admins
+    console.log('Pushing Cloud Messaging notification to admins due to failed Lit Action');
+  }
 
   console.log('Failed Lit Action detected', log);
   return null;

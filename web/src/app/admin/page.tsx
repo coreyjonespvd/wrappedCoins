@@ -10,10 +10,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Toggle } from "@/components/ui/toggle";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { app } from '@/lib/firebase';
+import { useSettings, callOp } from '@/lib/useAdmin';
 
 const AdminDashboard = () => {
   const [user, setUser] = useState<any>(null);
-  const [maintenanceMode, setMaintenanceMode] = useState(false);
+  const { settings, isLoading, isError, mutate } = useSettings();
   const { toast } = useToast();
   const router = useRouter();
 
@@ -44,17 +45,41 @@ const AdminDashboard = () => {
     }
   };
 
-  const handleToggleMaintenance = () => {
-    // TODO: Call function to toggle maintenance mode
-    setMaintenanceMode(!maintenanceMode);
-    toast({
-      title: "Maintenance Mode",
-      description: `Maintenance mode is now ${!maintenanceMode ? 'ON' : 'OFF'}`,
-    });
+  const handleToggleMaintenance = async (checked: boolean) => {
+    try {
+      const result = await callOp('toggleMaintenance', { onOff: checked });
+      if (result.success) {
+        toast({
+          title: "Maintenance Mode",
+          description: result.data.message || `Maintenance mode is now ${checked ? 'ON' : 'OFF'}`,
+        });
+        mutate(); // Refresh settings
+      } else {
+        toast({
+          title: "Error",
+          description: result.error || "Failed to toggle maintenance mode.",
+          variant: "destructive",
+        });
+      }
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "An unexpected error occurred.",
+        variant: "destructive",
+      });
+    }
   };
 
   if (!user) {
     return <div>Loading...</div>;
+  }
+
+  if (isLoading) {
+    return <div>Loading settings...</div>;
+  }
+
+  if (isError) {
+    return <div>Error loading settings.</div>;
   }
 
   return (
@@ -112,7 +137,7 @@ const AdminDashboard = () => {
         <div className="mt-6">
           <div className="flex items-center space-x-2">
             <label htmlFor="maintenance" className="text-lg font-semibold text-black">Maintenance Mode:</label>
-            <Toggle id="maintenance" onChecked={maintenanceMode} onCheckedChange={handleToggleMaintenance} />
+            <Toggle id="maintenance" onChecked={settings?.maintenanceMode || false} onCheckedChange={handleToggleMaintenance} />
           </div>
         </div>
 

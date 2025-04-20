@@ -79,7 +79,7 @@ const DepositPage = () => {
   ];
 
   return (
-    <div className="flex h-screen bg-background text-foreground">
+    <div className="flex h-screen bg-gray-200 text-black">
       {/* Transactions List */}
       <div className="w-1/3 p-6 border-r border-border">
         <h2 className="text-lg font-semibold mb-4">
@@ -101,7 +101,7 @@ const DepositPage = () => {
       </div>
 
       {/* Deposit Section */}
-      <div className="flex-1 p-6 flex flex-col">
+      <div className="flex-1 p-6 flex flex-col bg-white">
         <div className="mb-4">
           <h2 className="text-2xl font-bold">Deposit</h2>
         </div>

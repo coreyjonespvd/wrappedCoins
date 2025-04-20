@@ -13,6 +13,10 @@ const DepositPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const {toast} = useToast();
 
+  // State for wallet connection and balance
+  const [isConnected, setIsConnected] = useState(false);
+  const [pepBalance, setPepBalance] = useState<number | undefined>(undefined);
+
   const handleDeposit = async () => {
     if (!txid || !vout || !solRecipient) {
       toast({
@@ -41,12 +45,56 @@ const DepositPage = () => {
     }
   };
 
+  // Placeholder function for connecting wallet
+  const connectWallet = async () => {
+    // TODO: Implement wallet connection logic here
+    setIsConnected(true);
+    setPepBalance(12345); // Example balance
+    toast({
+      title: "Wallet Connected",
+      description: "Wallet connected successfully!",
+    });
+  };
+
+  // Placeholder function for depositing PEP
+  const depositPep = async (amount: number) => {
+    // TODO: Implement PEP deposit logic here
+    toast({
+      title: "Deposit Initiated",
+      description: `Depositing ${amount} PEP...`,
+    });
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
       <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
         <h1 className="text-4xl font-bold">
           Deposit PEP to get wPEP
         </h1>
+
+        {/* Wallet Connection Section */}
+        {!isConnected ? (
+          <Button onClick={connectWallet}>Connect PEP Wallet</Button>
+        ) : (
+          <div>
+            <p>Connected with {pepBalance} PEP</p>
+            {/* Deposit Form */}
+            <div className="mt-6 w-full max-w-md">
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="depositAmount">
+                  Deposit Amount:
+                </label>
+                <Input
+                  id="depositAmount"
+                  type="number"
+                  placeholder="Enter amount to deposit"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
+              </div>
+              <Button onClick={() => depositPep(10)}>Deposit</Button>
+            </div>
+          </div>
+        )}
 
         <div className="mt-6 w-full max-w-md">
           <div className="mb-4">

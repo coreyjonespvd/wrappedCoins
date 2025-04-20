@@ -77,11 +77,11 @@ const DashboardPage = () => {
   ];
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen py-2 bg-gray-200 text-black">
+    <div className="flex flex-col items-center justify-start min-h-screen py-2 bg-white text-black">
       <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
         <h1 className="text-4xl font-bold mb-6">Total Value Dashboard</h1>
 
-        <Card className="w-full mb-8 bg-white shadow-md rounded-lg p-6">
+        <Card className="w-full mb-8 bg-gray-50 shadow-md rounded-lg p-6">
           <CardHeader>
             <CardTitle className="text-black">Total Value Locked</CardTitle>
           </CardHeader>
@@ -102,7 +102,7 @@ const DashboardPage = () => {
         </Card>
 
         <div className="flex w-full justify-around">
-          <Card className="w-1/3 bg-white shadow-md rounded-lg p-6">
+          <Card className="w-1/2 bg-gray-50 shadow-md rounded-lg p-6">
             <CardHeader>
               <CardTitle className="text-black">Volume</CardTitle>
             </CardHeader>
@@ -122,7 +122,7 @@ const DashboardPage = () => {
             </CardContent>
           </Card>
 
-          <Card className="w-1/3 bg-white shadow-md rounded-lg p-6">
+          <Card className="w-1/2 bg-gray-50 shadow-md rounded-lg p-6">
             <CardHeader>
               <CardTitle className="text-black">Unique Wallets</CardTitle>
             </CardHeader>
@@ -151,3 +151,4 @@ const DashboardPage = () => {
 };
 
 export default DashboardPage;
+

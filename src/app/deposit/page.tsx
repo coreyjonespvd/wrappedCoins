@@ -1,6 +1,6 @@
 "use client";
 
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import {useToast} from "@/hooks/use-toast";
 import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
@@ -18,6 +18,54 @@ const DepositPage = () => {
   // State for wallet connection and balance
   const [isConnected, setIsConnected] = useState(false);
   const [pepBalance, setPepBalance] = useState<number | undefined>(undefined);
+
+  // State for total interactions and transactions connected to the backend
+  const [totalInteractions, setTotalInteractions] = useState<number>(0);
+  const [totalLockedAmount, setTotalLockedAmount] = useState<number>(0); // Sum of all locked PEP
+
+  // New State for transactions
+  const [depositTransactions, setDepositTransactions] = useState<
+    {id: string; type: string; amount: string}[]
+  >([]);
+
+  useEffect(() => {
+    // TODO: Fetch total interactions from the backend
+    fetchTotalInteractions().then(count => setTotalInteractions(count));
+
+    // TODO: Fetch total locked amount from the backend
+    fetchTotalLockedAmount().then(amount => setTotalLockedAmount(amount));
+
+    // TODO: Fetch transactions data from the backend
+    fetchTransactions().then(transactions => setDepositTransactions(transactions));
+  }, []);
+
+  // Placeholder functions for backend interactions (Replace with your actual backend calls)
+  async function fetchTotalInteractions(): Promise<number> {
+    // TODO: Implement fetching total interactions from your backend (Firestore)
+    return 2143; // Placeholder value
+  }
+
+  async function fetchTotalLockedAmount(): Promise<number> {
+    // TODO: Implement fetching total locked amount from your backend (Solana)
+    return 15000; // Example: 15000 PEP locked
+  }
+
+  async function fetchTransactions(): Promise<
+    {id: string; type: string; amount: string}[]
+  > {
+    // TODO: Implement fetching transactions from your backend (Solana or Firestore)
+    // This should return an array of transaction objects
+    return [
+      {id: "#2143", type: "Deposit", amount: "0.000686"},
+      {id: "#2142", type: "Withdrawal", amount: "0.020102"},
+      {id: "#2141", type: "Deposit", amount: "0.000793"},
+      {id: "#2140", type: "Deposit", amount: "0.000710"},
+      {id: "#2139", type: "Deposit", amount: "0.000552"},
+      {id: "#2138", type: "Deposit", amount: "0.259964"},
+      {id: "#2137", type: "Deposit", amount: "0.000714"},
+      {id: "#2136", type: "Withdrawal", amount: "0.000714"},
+    ];
+  }
 
   const handleDeposit = async () => {
     if (!txid || !vout || !solRecipient) {
@@ -67,23 +115,13 @@ const DepositPage = () => {
     });
   };
 
-  const depositTransactions = [
-    {id: "#2143", type: "Deposit", amount: "0.000686"},
-    {id: "#2142", type: "Withdrawal", amount: "0.020102"},
-    {id: "#2141", type: "Deposit", amount: "0.000793"},
-    {id: "#2140", type: "Deposit", amount: "0.000710"},
-    {id: "#2139", type: "Deposit", amount: "0.000552"},
-    {id: "#2138", type: "Deposit", amount: "0.259964"},
-    {id: "#2137", type: "Deposit", amount: "0.000714"},
-    {id: "#2136", type: "Withdrawal", amount: "0.000714"},
-  ];
-
   return (
     <div className="flex h-screen bg-gray-200 text-black">
       {/* Transactions List */}
       <div className="w-1/3 p-6 border-r border-border">
         <h2 className="text-lg font-semibold mb-4">
-          <span className="mr-2">Total 2,143 Interactions</span>
+          <span className="mr-2">Total {totalInteractions} Interactions</span>
+          <span className="text-sm text-gray-500">({totalLockedAmount} PEP Locked)</span>
         </h2>
         <div className="overflow-y-auto h-[calc(100vh-10rem)]">
           {depositTransactions.map((transaction, index) => (

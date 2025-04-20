@@ -118,7 +118,7 @@ const DepositPage = () => {
             placeholder="0"
             className="w-full rounded-md mb-2 bg-gray-100"
           />
-          <Button variant="outline" size="sm">
+          <Button variant="outline" style={{color: 'black'}} size="sm">
             Max
           </Button>
         </div>

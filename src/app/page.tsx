@@ -1,4 +1,3 @@
-
 "use client";
 
 import {Button} from "@/components/ui/button";
@@ -16,19 +15,19 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-gray-50 text-black">
       <Toaster/>
-      <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-        <h1 className="text-6xl font-bold">
+      <main className="flex flex-col items-center justify-center w-full flex-1 px-4 sm:px-20 text-center">
+        <h1 className="text-4xl sm:text-6xl font-bold">
           Welcome to wPEP Bridge
         </h1>
 
         <div className="mt-6">
-          <p className="text-2xl">
+          <p className="text-xl sm:text-2xl">
             Bridge your <span className="text-blue-600">PEP</span> to <span className="text-green-600">Solana</span>
           </p>
         </div>
 
         <div className="flex flex-wrap items-center justify-around max-w-4xl mt-6 sm:w-full">
-          <Card className="bg-white shadow-md rounded-lg p-6 w-full sm:w-auto mt-4">
+          <Card className="bg-white shadow-md rounded-lg p-4 sm:p-6 w-full sm:w-auto mt-4">
             <CardHeader>
               <CardTitle className="text-black">Deposit</CardTitle>
               <CardDescription>Bridge your PEP to Solana as wPEP</CardDescription>
@@ -38,7 +37,7 @@ export default function Home() {
             </CardContent>
           </Card>
 
-          <Card className="bg-white shadow-md rounded-lg p-6 w-full sm:w-auto mt-4">
+          <Card className="bg-white shadow-md rounded-lg p-4 sm:p-6 w-full sm:w-auto mt-4">
             <CardHeader>
               <CardTitle className="text-black">Withdraw</CardTitle>
               <CardDescription>Bridge your wPEP back to PEP</CardDescription>
@@ -57,7 +56,3 @@ export default function Home() {
     </div>
   );
 }
-
-
-
-

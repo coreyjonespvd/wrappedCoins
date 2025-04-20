@@ -60,8 +60,8 @@ const WithdrawPage = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-white text-black">
-      <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-        <h1 className="text-4xl font-bold text-black">
+      <main className="flex flex-col items-center justify-center w-full flex-1 px-4 sm:px-20 text-center">
+        <h1 className="text-3xl sm:text-4xl font-bold text-black">
           Withdrawal wPEP to PEP
         </h1>
 

@@ -7,17 +7,17 @@ import {Input} from "@/components/ui/input";
 import {proveDeposit} from "@/ai/flows/prove-deposit";
 import {Icons} from "@/components/icons";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
+import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+import { useWallet } from '@solana/wallet-adapter-react';
 
 const DepositPage = () => {
   const [txid, setTxid] = useState<string>("");
   const [vout, setVout] = useState<number | undefined>(undefined);
-  const [solRecipient, setSolRecipient] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const {toast} = useToast();
 
-  // State for wallet connection and balance
-  const [isConnected, setIsConnected] = useState(false);
-  const [pepBalance, setPepBalance] = useState<number | undefined>(undefined);
+  // Solana Wallet state
+  const { connected, publicKey } = useWallet();
 
   // State for total interactions and transactions connected to the backend
   const [totalInteractions, setTotalInteractions] = useState<number>(0);
@@ -38,6 +38,13 @@ const DepositPage = () => {
     // TODO: Fetch transactions data from the backend
     fetchTransactions().then(transactions => setDepositTransactions(transactions));
   }, []);
+
+   useEffect(() => {
+    if (connected && publicKey) {
+      console.log("User's wallet address:", publicKey.toBase58());
+      // Optionally fetch wPEP balance or other relevant data here
+    }
+  }, [connected, publicKey]);
 
   // Placeholder functions for backend interactions (Replace with your actual backend calls)
   async function fetchTotalInteractions(): Promise<number> {
@@ -68,10 +75,10 @@ const DepositPage = () => {
   }
 
   const handleDeposit = async () => {
-    if (!txid || !vout || !solRecipient) {
+    if (!txid || !vout || !publicKey) {
       toast({
         title: "Error",
-        description: "Please fill in all fields.",
+        description: "Please connect your Solana wallet and fill in all deposit details.",
         variant: "destructive",
       });
       return;
@@ -79,6 +86,8 @@ const DepositPage = () => {
 
     setIsLoading(true);
     try {
+      // Pass the connected Solana wallet address as the recipient
+      const solRecipient = publicKey.toBase58();
       const result = await proveDeposit({txid: txid, vout: vout, solRecipient: solRecipient});
       toast({
         title: "Success",
@@ -87,7 +96,7 @@ const DepositPage = () => {
     } catch (error: any) {
       toast({
         title: "Error",
-        description: error.message || "Something went wrong.",
+        description: error.message || "Something went wrong during deposit proof.",
         variant: "destructive",
       });
     } finally {
@@ -95,23 +104,12 @@ const DepositPage = () => {
     }
   };
 
-  // Placeholder function for connecting wallet
-  const connectWallet = async () => {
-    // TODO: Implement wallet connection logic here
-    setIsConnected(true);
-    setPepBalance(12345); // Example balance
-    toast({
-      title: "Wallet Connected",
-      description: "Wallet connected successfully!",
-    });
-  };
-
-  // Placeholder function for depositing PEP
+  // Placeholder function for depositing PEP (if direct wallet integration is added later)
   const depositPep = async (amount: number) => {
-    // TODO: Implement PEP deposit logic here
+    // TODO: Implement PEP deposit logic here (e.g., show QR, interact with specific wallet)
     toast({
       title: "Deposit Initiated",
-      description: `Depositing ${amount} PEP...`,
+      description: `Please send ${amount} PEP to the deposit address.`, // Update message as needed
     });
   };
 
@@ -123,63 +121,55 @@ const DepositPage = () => {
           <h2 className="text-2xl font-bold text-black">Deposit</h2>
         </div>
 
-        {/* Lock Section */}
+        {/* Lock Section (Manual Input - For now, users deposit externally) */}
         <div className="mb-6">
-          <h3 className="text-lg font-semibold mb-2 text-black">Lock</h3>
-          <div className="flex items-center justify-between mb-2">
-            <span className="font-medium text-black">PEP</span>
-            <span className="text-black">~$0 USD</span>
+           <h3 className="text-lg font-semibold mb-2 text-black">Deposit PEP</h3>
+          <p className="text-sm text-gray-600 mb-2">Send PEP to the designated address below. Once confirmed, enter the TXID and Vout to mint wPEP.</p>
+          {/* TODO: Display the PKP-PEP deposit address here (fetched from Firestore/backend) */}
+          <div className="bg-gray-100 p-2 rounded mb-2">
+            <p className="text-sm font-mono break-all">PEP_DEPOSIT_ADDRESS_PLACEHOLDER</p>
           </div>
-          <Input
-            type="number"
-            placeholder="0"
+           <Input
+            id="txid"
+            type="text"
+            placeholder="Enter PEP Transaction ID (TXID)"
+            value={txid}
+            onChange={(e) => setTxid(e.target.value)}
             className="w-full rounded-md mb-2 bg-gray-50 text-black"
           />
-          <Button variant="outline" style={{color: 'black', backgroundColor: 'lightgrey'}} size="sm">
-            Max
-          </Button>
+          <Input
+            id="vout"
+            type="number"
+            placeholder="Enter PEP Transaction Output Index (Vout)"
+            value={vout ?? ''}
+            onChange={(e) => setVout(e.target.value ? parseInt(e.target.value) : undefined)}
+            className="w-full rounded-md mb-2 bg-gray-50 text-black"
+          />
         </div>
+
 
         {/* Mint Section */}
         <div className="mb-6">
-          <h3 className="text-lg font-semibold mb-2 text-black">Mint</h3>
-          <div className="flex items-center justify-between mb-2">
+          <h3 className="text-lg font-semibold mb-2 text-black">Mint wPEP</h3>
+           <p className="text-sm text-gray-600 mb-2">Connect your Solana wallet to receive the minted wPEP.</p>
+           <div className="flex items-center justify-between mb-2">
             <span className="font-medium text-black">wPEP <Icons.shield className="inline-block h-4 w-4 ml-1"/> Custodial</span>
             <span className="text-black">~$0 USD</span>
           </div>
-          <Input
-            type="number"
-            placeholder="0"
-            className="w-full rounded-md mb-2 bg-gray-50 text-black"
-          />
+          {/* Display connected wallet or connect button */}
+           {!connected ? (
+             <WalletMultiButton className="w-full !bg-gray-200 !text-black hover:!bg-gray-300"/>
+           ) : (
+             <div className="bg-gray-100 p-2 rounded mb-2">
+                <p className="text-sm text-black">Connected: <span className="font-mono">{publicKey?.toBase58()}</span></p>
+            </div>
+           )}
         </div>
 
-        {/* Connect Wallet Section */}
-        {!isConnected ? (
-          <Button onClick={connectWallet} className="w-full">
-            <Icons.shield className="inline-block h-4 w-4 mr-2"/>
-            Connect PEP Wallet
-          </Button>
-        ) : (
-          <div>
-            <p className="text-black">Connected with {pepBalance} PEP</p>
-            {/* Deposit Form */}
-            <div className="mt-6 w-full max-w-md">
-              <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2 text-black" htmlFor="depositAmount">
-                  Deposit Amount:
-                </label>
-                <Input
-                  id="depositAmount"
-                  type="number"
-                  placeholder="Enter amount to deposit"
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-50 text-black"
-                />
-              </div>
-              <Button onClick={() => depositPep(10)}>Deposit</Button>
-            </div>
-          </div>
-        )}
+        {/* Action Button */}
+        <Button onClick={handleDeposit} className="w-full" disabled={isLoading || !connected}>
+          {isLoading ? 'Processing...' : 'Prove Deposit & Mint wPEP'}
+        </Button>
 
         {/* Safety Message */}
         <Card className="mt-4 bg-destructive text-destructive-foreground">
@@ -194,7 +184,7 @@ const DepositPage = () => {
         </Card>
       </div>
            {/* Transactions List */}
-           <div className="w-full p-6 border-b border-border">
+           <div className="w-full p-6 border-t border-border">
         <h2 className="text-lg font-semibold mb-4 text-black">
           <span className="mr-2">Total {totalInteractions} Interactions</span>
           <span className="text-sm text-gray-500">({totalLockedAmount} PEP Locked)</span>

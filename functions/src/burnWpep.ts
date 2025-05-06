@@ -1,4 +1,4 @@
-import * as LitJsSdk from "@lit-protocol/lit-node-client";
+import * as LitJsSdk from "lit-js-sdk";
 import axios from "axios";
 import { accessControlConditions } from "./accessControl";
 

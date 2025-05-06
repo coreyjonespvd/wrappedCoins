@@ -1,4 +1,4 @@
-import * as LitJsSdk from "@lit-protocol/lit-node-client";
+import * as LitJsSdk from "lit-js-sdk";
 import * as admin from "firebase-admin";
 
 const client = new LitJsSdk.LitNodeClient({ debug: false });
